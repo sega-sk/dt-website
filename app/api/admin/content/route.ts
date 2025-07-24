@@ -32,6 +32,8 @@ export async function POST(request: NextRequest) {
 
   try {
     const updates = await request.json();
+    console.log('Received content update request:', Object.keys(updates));
+    
     const updatedContent = await ContentManager.updateContent(updates);
     
     return NextResponse.json({
@@ -41,7 +43,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error updating content:', error);
     return NextResponse.json(
-      { error: 'Failed to update content' },
+      { 
+        error: 'Failed to update content',
+        details: error.message
+      },
       { status: 500 }
     );
   }

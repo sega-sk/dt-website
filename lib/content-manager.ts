@@ -6,6 +6,12 @@ const CONTENT_KEY = 'site-content';
 export class ContentManager {
   static async loadContent(): Promise<ContentConfig> {
     try {
+      // Check if Edge Config is available
+      if (!process.env.EDGE_CONFIG) {
+        console.warn('EDGE_CONFIG environment variable not found, using default content');
+        return defaultContent;
+      }
+
       // Try to load from Vercel Edge Config
       const savedContent = await get<ContentConfig>(CONTENT_KEY);
       
@@ -25,11 +31,19 @@ export class ContentManager {
 
   static async updateContent(updates: Partial<ContentConfig>): Promise<ContentConfig> {
     try {
+      // Check if required environment variables are available
+      if (!process.env.EDGE_CONFIG_ID || !process.env.VERCEL_API_TOKEN) {
+        console.error('Missing required environment variables:', {
+          EDGE_CONFIG_ID: !!process.env.EDGE_CONFIG_ID,
+          VERCEL_API_TOKEN: !!process.env.VERCEL_API_TOKEN,
+        });
+        throw new Error('Edge Config not properly configured. Missing environment variables.');
+      }
+
       const currentContent = await this.loadContent();
       const newContent = this.deepMerge(currentContent, updates);
       
-      // Note: Edge Config updates are done via API, not directly in code
-      // We'll make an API call to update the Edge Config
+      // Make API call to update Edge Config
       const response = await fetch('/api/admin/edge-config', {
         method: 'POST',
         headers: {
@@ -47,13 +61,15 @@ export class ContentManager {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update Edge Config');
+        const errorText = await response.text();
+        console.error('Edge Config API response:', response.status, errorText);
+        throw new Error(`Failed to update Edge Config: ${response.status} ${errorText}`);
       }
       
       return newContent;
     } catch (error) {
       console.error('Error updating content in Edge Config:', error);
-      throw new Error('Failed to update content');
+      throw new Error(`Failed to update content: ${error.message}`);
     }
   }
 
