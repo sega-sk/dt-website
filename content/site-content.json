@@ -1,0 +1,124 @@
+{
+  "site": {
+    "title": "DealerTower - Websites Built for Car Shoppers",
+    "description": "Top-notch car dealership pages, endless logo apps, and talented designers. Our platform gives dealers control back, delivering the exact experience they want while our experienced buyers actively work the biggest in today's digital world.",
+    "logo": "/dealertower-logo.svg",
+    "favicon": "/favicon.ico"
+  },
+  "header": {
+    "logo": "/dealertower-logo.svg",
+    "navigationItems": [
+      {
+        "label": "Home",
+        "href": "/"
+      }
+    ]
+  },
+  "hero": {
+    "title": "Websites",
+    "highlightedWord": "Built",
+    "subtitle": "for Car Shoppers.",
+    "description": "Say goodbye to cluttered pages, endless pop-ups, and bloated widgets. Our platform gives dealers control back delivering the clean, user-friendly shopping experience buyers actually want and expect in today's digital world.",
+    "videoSrc": "/videos/hero-demo.webm",
+    "videoPoster": "/images/posters/hero-demo-poster.webp"
+  },
+  "aiSearch": {
+    "title": "Built to Win",
+    "highlightedText": "AI Search",
+    "subtitle": "We don't just follow SEO trends we anticipate them.",
+    "description": "Our platform is purpose-built for the future of search, ranking your site where it matters most: at the top of AI-generated results on ChatGPT, Gemini, and beyond.",
+    "videoSrc": "/videos/ai-search-demo.webm",
+    "videoPoster": "/images/posters/ai-search-demo-poster.webp"
+  },
+  "lightningFast": {
+    "title": "",
+    "highlightedWord": "Lightning Fast",
+    "subtitle": "Websites",
+    "description": "No more waiting, no more frustration our websites load lightning fast so buyers can browse, compare, and buy without delay. DealerTower keeps your website running at peak performance, consistently outperforming our competitors in page-speed tests.",
+    "videoSrc": "/videos/performance-demo.webm",
+    "videoPoster": "/images/posters/performance-demo-poster.webp"
+  },
+  "srpCustomizer": {
+    "title": "SRP Customizer",
+    "subtitle": "+ Bulk Rules",
+    "description": "Take full control of your inventory pages—no support tickets, no waiting. Our SRP customizer lets you instantly add, remove, or tweak CTAs, and apply bulk rules to update pricing rules & assets across vehicles using powerful filters. It's flexibility you won't find anywhere else.",
+    "videoSrc": "/videos/srp-customizer-demo.webm",
+    "videoPoster": "/images/posters/srp-customizer-demo-poster.webp"
+  },
+  "contact": {
+    "title": "Experience",
+    "highlightedText": "the Platform",
+    "subtitle": "Experience the Platform",
+    "buttonText": "Contact Us",
+    "formFields": {
+      "firstName": {
+        "label": "First Name*",
+        "placeholder": "Enter your first name",
+        "required": true
+      },
+      "lastName": {
+        "label": "Last Name*",
+        "placeholder": "Enter your last name",
+        "required": true
+      },
+      "email": {
+        "label": "Email*",
+        "placeholder": "Enter your email",
+        "required": true
+      },
+      "phone": {
+        "label": "Phone*",
+        "placeholder": "Enter your phone",
+        "required": true
+      },
+      "comments": {
+        "label": "Comments",
+        "placeholder": "Tell us about your project or ask any questions...",
+        "required": false
+      }
+    }
+  },
+  "footer": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "/support"
+      },
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy"
+      },
+      {
+        "label": "Terms of Service",
+        "href": "/terms"
+      },
+      {
+        "label": "Cookie Policy",
+        "href": "/cookies"
+      }
+    ],
+    "copyrightText": "© 2024 Dealertower. All rights reserved.",
+    "address": "12725 SW Millikan Way, Suite 300, Beaverton OR 97005"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Notice",
+      "lastUpdated": "May 31, 2025",
+      "content": "Welcome to Dealertower. We respect your privacy and are committed to protecting your personal data..."
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "lastUpdated": "May 31, 2025",
+      "content": "These terms and conditions govern your use of this website..."
+    },
+    "cookies": {
+      "title": "Cookie Policy",
+      "lastUpdated": "May 31, 2025",
+      "content": "As is common practice with almost all professional websites, this site uses cookies..."
+    },
+    "support": {
+      "title": "Support",
+      "description": "Get help with your DealerTower account and services."
+    }
+  }
+}
