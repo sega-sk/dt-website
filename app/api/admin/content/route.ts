@@ -17,6 +17,7 @@ export async function GET() {
     const content = await ContentManager.loadContent();
     return NextResponse.json(content);
   } catch (error) {
+    console.error('Error loading content:', error);
     return NextResponse.json(
       { error: 'Failed to load content' },
       { status: 500 }
@@ -32,8 +33,21 @@ export async function POST(request: NextRequest) {
   try {
     const updates = await request.json();
     const updatedContent = await ContentManager.updateContent(updates);
-    return NextResponse.json(updatedContent);
+    
+    return NextResponse.json({
+      ...updatedContent,
+      _message: 'Content updated successfully and saved to GitHub'
+    });
   } catch (error) {
+    console.error('Error updating content:', error);
+    return NextResponse.json(
+      { error: 'Failed to update content' },
+      { status: 500 }
+    );
+  }
+}
+  } catch (error) {
+    console.error('Error updating content:', error);
     return NextResponse.json(
       { error: 'Failed to update content' },
       { status: 500 }
