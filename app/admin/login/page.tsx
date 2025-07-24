@@ -80,22 +80,3 @@ export default function AdminLogin() {
     </div>
   );
 }
-            </div>
-          </div>
-
-          {error && (
-            <div className="text-red-600 text-sm text-center">{error}</div>
-          )}
-
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full"
-          >
-            {loading ? 'Signing in...' : 'Sign in'}
-          </Button>
-        </form>
-      </div>
-    </div>
-  );
-}

@@ -43,34 +43,3 @@ export class ContentManager {
     return result;
   }
 }
-          result[key] = current[key];
-        }
-      }
-    }
-    
-    return result;
-  }
-  
-  static async updateContent(updates: Partial<ContentConfig>): Promise<ContentConfig> {
-    const currentContent = await this.loadContent();
-    const updatedContent = this.deepMerge(currentContent, updates);
-    await this.saveContent(updatedContent);
-    return updatedContent;
-  }
-  
-  private static deepMerge(target: any, source: any): any {
-    const result = { ...target };
-    
-    for (const key in source) {
-      if (source.hasOwnProperty(key)) {
-        if (typeof source[key] === 'object' && source[key] !== null && !Array.isArray(source[key])) {
-          result[key] = this.deepMerge(target[key] || {}, source[key]);
-        } else {
-          result[key] = source[key];
-        }
-      }
-    }
-    
-    return result;
-  }
-}
