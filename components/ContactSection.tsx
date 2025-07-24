@@ -3,25 +3,69 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState, useRef } from "react";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    comments: ''
+    fullName: '',
+    contactEmail: '',
+    phoneNumber: '',
+    companyType: 'choose',
+    organizationName: '',
+    requestType: 'choose',
+    description: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const formRef = useRef<HTMLFormElement>(null);
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required';
+    }
+    
+    if (!formData.contactEmail.trim()) {
+      newErrors.contactEmail = 'Contact email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.contactEmail)) {
+      newErrors.contactEmail = 'Please enter a valid email address';
+    }
+    
+    if (formData.companyType === 'choose') {
+      newErrors.companyType = 'Please select a company type';
+    }
+    
+    if (formData.requestType === 'choose') {
+      newErrors.requestType = 'Please select a request type';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
     try {
+      // Simulate form submission
       await new Promise(resolve => setTimeout(resolve, 1000));
-      setFormData({ firstName: '', lastName: '', email: '', phone: '', comments: '' });
+      setFormData({
+        fullName: '',
+        contactEmail: '',
+        phoneNumber: '',
+        companyType: 'choose',
+        organizationName: '',
+        requestType: 'choose',
+        description: ''
+      });
+      setErrors({});
     } catch (error) {
       // handle error
     } finally {
@@ -30,7 +74,18 @@ export default function ContactSection() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: '' });
+    }
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData({ ...formData, [name]: value });
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: '' });
+    }
   };
 
   return (
@@ -53,74 +108,147 @@ export default function ContactSection() {
 
           {/* Right Content - Contact Form */}
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 w-full max-w-xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-white mb-1">First Name*</label>
-                <Input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  placeholder="Enter your first name"
-                  required
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/70 w-full h-12 rounded-lg"
-                />
-              </div>
-              <div>
-                <label htmlFor="lastName" className="block text-sm font-medium text-white mb-1">Last Name*</label>
-                <Input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  placeholder="Enter your last name"
-                  required
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/70 w-full h-12 rounded-lg"
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-white mb-1">Email*</label>
-                <Input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter your email"
-                  required
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/70 w-full h-12 rounded-lg"
-                />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-white mb-1">Phone*</label>
-                <Input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Enter your phone"
-                  required
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/70 w-full h-12 rounded-lg"
-                />
-              </div>
-            </div>
+            {/* Full Name */}
             <div>
-              <label htmlFor="comments" className="block text-sm font-medium text-white mb-1">Comments</label>
+              <label htmlFor="fullName" className="block text-sm font-medium text-white mb-1">
+                Full Name*
+              </label>
+              <Input
+                type="text"
+                id="fullName"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="Enter your full name"
+                required
+                className={`bg-white/10 border-white/20 text-white placeholder:text-white/70 w-full h-12 rounded-lg ${
+                  errors.fullName ? 'border-red-400' : ''
+                }`}
+              />
+              {errors.fullName && (
+                <p className="text-red-300 text-sm mt-1">{errors.fullName}</p>
+              )}
+            </div>
+
+            {/* Contact Email */}
+            <div>
+              <label htmlFor="contactEmail" className="block text-sm font-medium text-white mb-1">
+                Contact Email*
+              </label>
+              <Input
+                type="email"
+                id="contactEmail"
+                name="contactEmail"
+                value={formData.contactEmail}
+                onChange={handleChange}
+                placeholder="Enter your email address"
+                required
+                className={`bg-white/10 border-white/20 text-white placeholder:text-white/70 w-full h-12 rounded-lg ${
+                  errors.contactEmail ? 'border-red-400' : ''
+                }`}
+              />
+              {errors.contactEmail && (
+                <p className="text-red-300 text-sm mt-1">{errors.contactEmail}</p>
+              )}
+            </div>
+
+            {/* Phone Number */}
+            <div>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-white mb-1">
+                Phone Number
+              </label>
+              <Input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                placeholder="Enter your phone number"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/70 w-full h-12 rounded-lg"
+              />
+            </div>
+
+            {/* Company Type */}
+            <div>
+              <label htmlFor="companyType" className="block text-sm font-medium text-white mb-1">
+                Company Type*
+              </label>
+              <Select value={formData.companyType} onValueChange={(value) => handleSelectChange('companyType', value)}>
+                <SelectTrigger className={`bg-white/10 border-white/20 text-white w-full h-12 rounded-lg ${
+                  errors.companyType ? 'border-red-400' : ''
+                }`}>
+                  <SelectValue placeholder="Choose" />
+                </SelectTrigger>
+                <SelectContent className="bg-white border border-gray-200">
+                  <SelectItem value="choose" disabled className="text-gray-400">Choose</SelectItem>
+                  <SelectItem value="dealership" className="text-gray-900">Dealership</SelectItem>
+                  <SelectItem value="vendor" className="text-gray-900">Vendor</SelectItem>
+                  <SelectItem value="other" className="text-gray-900">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.companyType && (
+                <p className="text-red-300 text-sm mt-1">{errors.companyType}</p>
+              )}
+            </div>
+
+            {/* Organization Name */}
+            <div>
+              <label htmlFor="organizationName" className="block text-sm font-medium text-white mb-1">
+                Organization Name
+              </label>
+              <Input
+                type="text"
+                id="organizationName"
+                name="organizationName"
+                value={formData.organizationName}
+                onChange={handleChange}
+                placeholder="Enter your organization name"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/70 w-full h-12 rounded-lg"
+              />
+            </div>
+
+            {/* Request Type */}
+            <div>
+              <label htmlFor="requestType" className="block text-sm font-medium text-white mb-1">
+                Request Type*
+              </label>
+              <Select value={formData.requestType} onValueChange={(value) => handleSelectChange('requestType', value)}>
+                <SelectTrigger className={`bg-white/10 border-white/20 text-white w-full h-12 rounded-lg ${
+                  errors.requestType ? 'border-red-400' : ''
+                }`}>
+                  <SelectValue placeholder="Choose" />
+                </SelectTrigger>
+                <SelectContent className="bg-white border border-gray-200">
+                  <SelectItem value="choose" disabled className="text-gray-400">Choose</SelectItem>
+                  <SelectItem value="website-support" className="text-gray-900">Website Support</SelectItem>
+                  <SelectItem value="digital-marketing" className="text-gray-900">Digital Marketing Assistance</SelectItem>
+                  <SelectItem value="video-advertising" className="text-gray-900">Video Advertising</SelectItem>
+                  <SelectItem value="seo-optimization" className="text-gray-900">SEO Optimization</SelectItem>
+                  <SelectItem value="code-implementation" className="text-gray-900">Code Implementation</SelectItem>
+                  <SelectItem value="other" className="text-gray-900">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.requestType && (
+                <p className="text-red-300 text-sm mt-1">{errors.requestType}</p>
+              )}
+            </div>
+
+            {/* Description */}
+            <div>
+              <label htmlFor="description" className="block text-sm font-medium text-white mb-1">
+                Description
+              </label>
               <Textarea
-                id="comments"
-                name="comments"
-                value={formData.comments}
+                id="description"
+                name="description"
+                value={formData.description}
                 onChange={handleChange}
                 placeholder="Tell us about your project or ask any questions..."
                 rows={4}
                 className="bg-white/10 border-white/20 text-white placeholder:text-white/70 w-full resize-none rounded-lg"
               />
             </div>
+
             <div className="pt-2">
               <Button
                 type="submit"
