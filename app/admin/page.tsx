@@ -101,6 +101,7 @@ export default function AdminDashboard() {
 
   const tabs = [
     { id: 'site', label: 'Site Settings' },
+    { id: 'header', label: 'Header' },
     { id: 'hero', label: 'Hero Section' },
     { id: 'aiSearch', label: 'AI Search' },
     { id: 'lightningFast', label: 'Lightning Fast' },
@@ -198,6 +199,23 @@ export default function AdminDashboard() {
                 </div>
               )}
 
+              {/* Header Section */}
+              {activeTab === 'header' && (
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold">Header</h2>
+                  <div className="grid grid-cols-1 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Header Logo</label>
+                      <Input
+                        value={content.header.logo}
+                        onChange={(e) => updateContent('header.logo', e.target.value)}
+                        placeholder="/path/to/logo.svg"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Hero Section */}
               {activeTab === 'hero' && (
                 <div className="space-y-6">
@@ -225,6 +243,14 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                      <Textarea
+                        value={content.hero.description}
+                        onChange={(e) => updateContent('hero.description', e.target.value)}
+                        rows={3}
+                      />
+                    </div>
+                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Video Source</label>
                       <Input
                         value={content.hero.videoSrc}
@@ -244,7 +270,6 @@ export default function AdminDashboard() {
                 </div>
               )}
 
-              {/* Continue with other sections... */}
               {/* AI Search Section */}
               {activeTab === 'aiSearch' && (
                 <div className="space-y-6">
@@ -273,6 +298,14 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                      <Textarea
+                        value={content.aiSearch.description}
+                        onChange={(e) => updateContent('aiSearch.description', e.target.value)}
+                        rows={3}
+                      />
+                    </div>
+                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Video Source</label>
                       <Input
                         value={content.aiSearch.videoSrc}
@@ -295,6 +328,13 @@ export default function AdminDashboard() {
                 <div className="space-y-6">
                   <h2 className="text-xl font-semibold">Lightning Fast Section</h2>
                   <div className="grid grid-cols-1 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                      <Input
+                        value={content.lightningFast.title}
+                        onChange={(e) => updateContent('lightningFast.title', e.target.value)}
+                      />
+                    </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Highlighted Word</label>
                       <Input
@@ -329,6 +369,51 @@ export default function AdminDashboard() {
                       <Input
                         value={content.lightningFast.videoPoster}
                         onChange={(e) => updateContent('lightningFast.videoPoster', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* SRP Customizer Section */}
+              {activeTab === 'srpCustomizer' && (
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold">SRP Customizer Section</h2>
+                  <div className="grid grid-cols-1 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                      <Input
+                        value={content.srpCustomizer.title}
+                        onChange={(e) => updateContent('srpCustomizer.title', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Subtitle</label>
+                      <Input
+                        value={content.srpCustomizer.subtitle}
+                        onChange={(e) => updateContent('srpCustomizer.subtitle', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                      <Textarea
+                        value={content.srpCustomizer.description}
+                        onChange={(e) => updateContent('srpCustomizer.description', e.target.value)}
+                        rows={4}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Video Source</label>
+                      <Input
+                        value={content.srpCustomizer.videoSrc}
+                        onChange={(e) => updateContent('srpCustomizer.videoSrc', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Video Poster</label>
+                      <Input
+                        value={content.srpCustomizer.videoPoster}
+                        onChange={(e) => updateContent('srpCustomizer.videoPoster', e.target.value)}
                       />
                     </div>
                   </div>

@@ -21,6 +21,7 @@ export interface ContentConfig {
     title: string;
     highlightedWord: string;
     subtitle: string;
+    description: string;
     videoSrc: string;
     videoPoster: string;
   };
@@ -30,6 +31,7 @@ export interface ContentConfig {
     title: string;
     highlightedText: string;
     subtitle: string;
+    description: string;
     videoSrc: string;
     videoPoster: string;
   };
@@ -47,6 +49,7 @@ export interface ContentConfig {
   // SRP Customizer Section
   srpCustomizer: {
     title: string;
+    subtitle: string;
     description: string;
     videoSrc: string;
     videoPoster: string;
@@ -120,6 +123,7 @@ export const defaultContent: ContentConfig = {
     title: 'Websites',
     highlightedWord: 'Built',
     subtitle: 'for Car Shoppers.',
+    description: 'Say goodbye to cluttered pages, endless pop-ups, and bloated widgets. Our platform gives dealers control back delivering the clean, user-friendly shopping experience buyers actually want and expect in today\'s digital world.',
     videoSrc: '/videos/hero-demo.webm',
     videoPoster: '/images/posters/hero-demo-poster.webp',
   },
@@ -128,6 +132,7 @@ export const defaultContent: ContentConfig = {
     title: 'Built to Win',
     highlightedText: 'AI Search',
     subtitle: 'We don\'t just follow SEO trends we anticipate them.',
+    description: 'Our platform is purpose-built for the future of search, ranking your site where it matters most: at the top of AI-generated results on ChatGPT, Gemini, and beyond.',
     videoSrc: '/videos/ai-search-demo.webm',
     videoPoster: '/images/posters/ai-search-demo-poster.webp',
   },
@@ -143,7 +148,8 @@ export const defaultContent: ContentConfig = {
   
   srpCustomizer: {
     title: 'SRP Customizer',
-    description: 'Customize your search results page with ease.',
+    subtitle: '+ Bulk Rules',
+    description: 'Take full control of your inventory pages—no support tickets, no waiting. Our SRP customizer lets you instantly add, remove, or tweak CTAs, and apply bulk rules to update pricing rules & assets across vehicles using powerful filters. It\'s flexibility you won\'t find anywhere else.',
     videoSrc: '/videos/srp-customizer-demo.webm',
     videoPoster: '/images/posters/srp-customizer-demo-poster.webp',
   },

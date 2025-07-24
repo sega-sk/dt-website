@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+const ADMIN_USERNAME = 'admin';
+const ADMIN_PASSWORD = 'dealer2024!';
+
 export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json();
     
-    // Get credentials from environment variables
-    const adminUsername = process.env.ADMIN_USERNAME || 'admin';
-    const adminPassword = process.env.ADMIN_PASSWORD || 'password123';
-    
-    if (username === adminUsername && password === adminPassword) {
-      // Set authentication cookie
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       cookies().set('admin-authenticated', 'true', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -30,5 +28,7 @@ export async function POST(request: NextRequest) {
       { error: 'Authentication failed' },
       { status: 500 }
     );
+  }
+}
   }
 }
