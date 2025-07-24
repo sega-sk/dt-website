@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({
       ...updatedContent,
-      _message: 'Content updated successfully and saved to GitHub'
+      _message: 'Content updated successfully and saved to Vercel Edge Config'
     });
   } catch (error) {
     console.error('Error updating content:', error);
