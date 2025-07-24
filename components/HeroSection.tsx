@@ -16,6 +16,7 @@ export default function HeroSection() {
           title: 'Websites',
           highlightedWord: 'Built',
           subtitle: 'for Car Shoppers.',
+          description: 'Say goodbye to cluttered pages, endless pop-ups, and bloated widgets. Our platform gives dealers control back delivering the clean, user-friendly shopping experience buyers actually want and expect in today\'s digital world.',
           videoSrc: '/videos/hero-demo.webm',
           videoPoster: '/images/posters/hero-demo-poster.webp',
         });
@@ -34,7 +35,7 @@ export default function HeroSection() {
               {content.title} <span className="font-bold animated-gradient-text">{content.highlightedWord}</span> {content.subtitle}
             </h1>
             <p className="font-poppins mt-4 text-base sm:text-lg text-gray-700 max-w-xl mx-auto lg:mx-0">
-              Say goodbye to cluttered pages, endless pop-ups, and bloated widgets. Our platform gives dealers control back delivering the clean, user-friendly shopping experience buyers actually want and expect in today's digital world.
+              {content.description}
             </p>
           </div>
 
