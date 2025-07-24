@@ -1,29 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ContentConfig } from '@/lib/content-config';
+import { ContentConfig, defaultContent } from '@/lib/content-config';
 
 export default function HeroSection() {
-  const [content, setContent] = useState<ContentConfig['hero'] | null>(null);
+  const [content, setContent] = useState<ContentConfig['hero']>(defaultContent.hero);
 
   useEffect(() => {
+    // Try to load from API, fall back to default content
     fetch('/api/content')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('API not available');
+        return res.json();
+      })
       .then(data => setContent(data.hero))
       .catch(() => {
-        // Fallback content
-        setContent({
-          title: 'Websites',
-          highlightedWord: 'Built',
-          subtitle: 'for Car Shoppers.',
-          description: 'Say goodbye to cluttered pages, endless pop-ups, and bloated widgets. Our platform gives dealers control back delivering the clean, user-friendly shopping experience buyers actually want and expect in today\'s digital world.',
-          videoSrc: '/videos/hero-demo.webm',
-          videoPoster: '/images/posters/hero-demo-poster.webp',
-        });
+        // Use default content if API fails
+        setContent(defaultContent.hero);
       });
   }, []);
-
-  if (!content) return <div>Loading...</div>;
 
   return (
     <section className="py-12 sm:py-20 lg:py-24 xl:py-32 2xl:py-40 bg-white">
