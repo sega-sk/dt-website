@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ContentManager } from '@/lib/content-manager';
 import { cookies } from 'next/headers';
+import { ContentManager } from '@/lib/content-manager';
 
-function isAuthenticated() {
-  return cookies().get('admin-authenticated')?.value === 'true';
+async function checkAuth() {
+  const cookieStore = cookies();
+  const authCookie = cookieStore.get('admin-authenticated');
+  return authCookie?.value === 'true';
 }
 
 export async function GET() {
-  if (!isAuthenticated()) {
+  if (!await checkAuth()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  
+
   try {
     const content = await ContentManager.loadContent();
     return NextResponse.json(content);
@@ -23,10 +25,10 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  if (!isAuthenticated()) {
+  if (!await checkAuth()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  
+
   try {
     const updates = await request.json();
     const updatedContent = await ContentManager.updateContent(updates);
