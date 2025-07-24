@@ -46,11 +46,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-  } catch (error) {
-    console.error('Error updating content:', error);
-    return NextResponse.json(
-      { error: 'Failed to update content' },
-      { status: 500 }
-    );
-  }
-}
