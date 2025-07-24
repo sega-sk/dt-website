@@ -1,0 +1,89 @@
+/* 
+  To use local fonts with base64 encoding:
+  1. Download the font files (e.g., .woff2) for each weight you need for the 'Inter' font.
+  2. Use an online converter (like 'font-to-base64' or similar) to convert each font file into a base64 string.
+  3. Paste the corresponding base64 string into the `src` url() for each @font-face rule below.
+*/
+
+/* Inter Regular */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('data:font/woff2;base64,/* PASTE BASE64-ENCODED FONT DATA FOR INTER REGULAR (400) HERE */') format('woff2');
+}
+
+/* Inter Bold */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('data:font/woff2;base64,/* PASTE BASE64-ENCODED FONT DATA FOR INTER BOLD (700) HERE */') format('woff2');
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Add your custom CSS styles here */
+body video.object-cover {
+  object-fit: contain;
+  background: #fff;
+}
+
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient-text {
+  background: linear-gradient(90deg, #0B5CFF 0%, #732DEE 100%);
+  background-size: 200% 200%;
+  animation: gradient-move 3s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (min-width: 768px) {
+  .responsive-text {
+    font-size: 0.69vw;
+  }
+  .responsive-title {
+    font-size: 2.5vw;
+  }
+  .responsive-subtitle {
+    font-size: 1.5vw;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .responsive-title {
+    font-size: 1.3vw;
+  }
+  .responsive-subtitle {
+    font-size: 0.85vw;
+  }
+  .responsive-text {
+    font-size: 0.45vw;
+  }
+}
+
+@media (max-width: 1024px) {
+  .responsive-title {
+    font-size: 1.8vw;
+  }
+  .responsive-subtitle {
+    font-size: 1vw;
+  }
+  .responsive-text {
+    font-size: 0.55vw;
+  }
+} 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 42">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: url(#linear-gradient1);
+      }
+
+      .st1 {
+        fill: url(#radial-gradient);
+      }
+
+      .st2 {
+        fill: url(#radial-gradient1);
+      }
+
+      .st3 {
+        fill: #39393a;
+      }
+
+      .st4 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="2.8" y1="360.6" x2="29.2" y2="351.3" gradientTransform="translate(0 -324)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#732dee"/>
+      <stop offset="1" stop-color="#5275ff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="4" y1="340.5" x2="30.4" y2="340.5" gradientTransform="translate(0 -324)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b5cff"/>
+      <stop offset="1" stop-color="#732dee"/>
+    </linearGradient>
+    <radialGradient id="radial-gradient" cx="-188.3" cy="141.2" fx="-188.3" fy="141.2" r=".9" gradientTransform="translate(445.6 -303.7) scale(2.3)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000094"/>
+      <stop offset="1" stop-color="#6641ff"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient1" cx="-244.6" cy="85.6" fx="-244.6" fy="85.6" r=".9" gradientTransform="translate(938.8 -304) scale(3.8)" xlink:href="#radial-gradient"/>
+  </defs>
+  <path class="st4" d="M11.4,30.4c-2.2.6-4.5,1-6.9,1.2h-.9l.3,7.9c6.3-.3,11.9-1.8,16.4-4.2,5.1-2.8,8.2-6.9,9.4-11.6.1-.6.3-1.3.3-1.9-4.9,4.9-12.4,7.4-18.8,8.8h.1Z"/>
+  <path class="st0" d="M30.1,17.1C28.3,8.2,18.1,2.5,4.1,2.5h-.1v7.9c10,0,17.6,3.3,18.5,8.2.1,1,.1,2.1-.1,3.1-.9,3.9-5.1,7-10.9,8.6,6.4-1.3,13.9-3.9,18.8-8.8.1-1.5.1-3-.1-4.5Z"/>
+  <path class="st1" d="M9.6,12.1h-5.5v1.5h5.5v-1.5Z"/>
+  <path class="st2" d="M9.6,14.9H.4v1.5h9.2v-1.5Z"/>
+  <g>
+    <path class="st3" d="M35.1,12.7h6.5c1.4,0,2.7.3,3.9,1,1.1.7,2,1.6,2.6,2.8.7,1.4,1,2.9.9,4.4,0,1.5-.3,3.1-1,4.4-.6,1.2-1.4,2.1-2.6,2.8-1.2.7-2.5,1-3.9,1h-6.5V12.7h0ZM40.9,25.9c1.1,0,2.2-.4,3-1.1.8-.8,1.2-2,1.2-3.9s-.4-3.1-1.1-3.9c-.8-.8-1.9-1.2-3-1.1h-2.2v9.9s2.1,0,2.1,0Z"/>
+    <path class="st3" d="M54.7,15.9v3.5h6.2v2.9h-6.2v3.7h7.4v3.2h-11.1V12.7h11.1v3.2h-7.4Z"/>
+    <path class="st3" d="M73.7,25.4h-5.3l-1.2,3.9h-3.7l5.9-16.4h3.4l5.8,16.3h-3.7l-1.2-3.8h0ZM72.8,22.6l-1.7-5.3h-.2l-1.6,5.3h3.6Z"/>
+    <path class="st3" d="M90.8,26v3.2h-10.6V12.7h3.7v13.2h7Z"/>
+    <path class="st3" d="M96.4,15.9v3.5h6.2v2.9h-6.2v3.7h7.4v3.2h-11.1V12.7h11.1v3.2h-7.4Z"/>
+    <path class="st3" d="M111.5,23.5h-1.9v5.8h-3.7V12.7h6.3c1.2,0,2.2.2,3.3.8.9.5,1.5,1.2,2,2,.5.8.7,1.7.7,2.7s-.3,2-.8,2.9c-.6.9-1.4,1.5-2.3,1.9l3.5,6.2h-3.9l-3.2-5.7h0ZM109.6,20.5h2c.8,0,1.5-.2,2.1-.6s1-1.1.9-1.7c0-.7-.3-1.4-.9-1.7-.7-.4-1.4-.6-2.1-.5h-2v4.5Z"/>
+    <path class="st3" d="M131.7,14.6h-4.8v14.6h-2v-14.6h-4.8v-1.8h11.7v1.8Z"/>
+    <path class="st3" d="M136.8,28.3c-1.1-.8-2-1.7-2.6-3-.6-1.4-.9-2.9-.9-4.3s.3-3,.9-4.3c.6-1.3,1.4-2.2,2.6-3s2.6-1.1,4.1-1.1,2.8.4,4,1.1c1.1.8,1.9,1.8,2.5,3,.6,1.4.9,2.9.9,4.4s-.3,3-.9,4.3c-.6,1.2-1.4,2.2-2.5,3-1.2.8-2.6,1.1-4,1.1s-2.9-.4-4.1-1.1h0ZM143.7,26.7c.8-.6,1.4-1.4,1.8-2.3.5-1.1.7-2.2.7-3.4s-.2-2.3-.7-3.4c-.4-1-1-1.7-1.8-2.3-.8-.6-1.8-.9-2.8-.9s-2,.3-2.8.9c-.8.6-1.4,1.4-1.8,2.3-.5,1.1-.7,2.2-.7,3.4s.2,2.3.7,3.4c.4,1,1,1.7,1.8,2.3.8.6,1.8.9,2.8.9s1.9-.3,2.8-.9Z"/>
+    <path class="st3" d="M149.5,12.7h2l3.7,14h.2l4.5-14h1.8l4.5,14h.2l3.7-14h2l-4.3,16.4h-2.7l-4.2-12.9h-.2l-4.2,12.9h-2.7l-4.3-16.4h0Z"/>
+    <path class="st3" d="M176.5,14.6v5.4h7.1v1.6h-7.1v5.7h8.1v1.8h-10V12.7h10v1.8h-8.1Z"/>
+    <path class="st3" d="M192.8,22.6h-2.9v6.6h-2V12.7h5.6c1.2,0,2.2.2,3.3.8.8.4,1.4,1.1,1.8,1.8.4.8.6,1.5.6,2.4s-.4,2.2-1,3.1c-.8,1-1.9,1.6-3.2,1.7l4.3,6.7h-2.2l-4.3-6.7h0ZM189.9,20.9h3.3c1,0,1.9-.2,2.8-.7.8-.5,1.2-1.4,1.2-2.4s-.4-1.9-1.2-2.4c-.9-.5-1.8-.8-2.8-.7h-3.3v6.3h0Z"/>
+  </g>
+</svg>
