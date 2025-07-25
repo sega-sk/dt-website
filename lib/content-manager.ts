@@ -1,4 +1,4 @@
-import { get, getAll } from '@vercel/edge-config';
+import { get } from '@vercel/edge-config';
 import { ContentConfig } from './content-config';
 
 const EDGE_CONFIG_ID = process.env.EDGE_CONFIG_ID;
@@ -7,8 +7,16 @@ const VERCEL_API_TOKEN = process.env.VERCEL_API_TOKEN;
 export class ContentManager {
   static async loadContent(): Promise<ContentConfig> {
     try {
-      // Try to get content from Edge Config
-      const content = await get<ContentConfig>('site-content');
+      // Force fresh data by adding timestamp to bypass any caching
+      const timestamp = Date.now();
+      
+      // Try to get content from Edge Config with cache busting
+      const content = await get<ContentConfig>('site-content', {
+        // Disable caching completely
+        next: { revalidate: 0 }
+      });
+      
+      console.log(`Loading content at ${timestamp}:`, content ? 'Found' : 'Not found');
       
       if (content) {
         return content;
@@ -25,15 +33,21 @@ export class ContentManager {
 
   static async updateContent(updates: Partial<ContentConfig>): Promise<ContentConfig> {
     try {
-      // Get current content
+      console.log('Updating content with:', Object.keys(updates));
+      
+      // Get current content (bypassing cache)
       const currentContent = await this.loadContent();
       
-      // Merge updates with current content
-      const updatedContent = { ...currentContent, ...updates };
+      // Deep merge updates with current content
+      const updatedContent = this.deepMerge(currentContent, updates);
       
       // Update Edge Config via Vercel API
       await this.updateEdgeConfig(updatedContent);
       
+      // Wait a moment for propagation
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      console.log('Content updated successfully');
       return updatedContent;
     } catch (error) {
       console.error('Error updating content in Vercel Edge Config:', error);
@@ -41,16 +55,33 @@ export class ContentManager {
     }
   }
 
+  private static deepMerge(target: any, source: any): any {
+    const result = { ...target };
+    
+    for (const key in source) {
+      if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+        result[key] = this.deepMerge(target[key] || {}, source[key]);
+      } else {
+        result[key] = source[key];
+      }
+    }
+    
+    return result;
+  }
+
   private static async updateEdgeConfig(content: ContentConfig): Promise<void> {
     if (!EDGE_CONFIG_ID || !VERCEL_API_TOKEN) {
       throw new Error('Missing Vercel configuration');
     }
 
-    const response = await fetch(`https://api.vercel.com/v1/edge-config/${EDGE_CONFIG_ID}/items`, {
+    const response = await fetch(`https://api.vercel.com/v1/edge-config/${EDGE_CONFIG_ID}/items?t=${Date.now()}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${VERCEL_API_TOKEN}`,
         'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
       },
       body: JSON.stringify({
         items: [

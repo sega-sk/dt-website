@@ -21,9 +21,18 @@ export default function AdminDashboard() {
 
   const loadContent = async () => {
     try {
-      const response = await fetch('/api/admin/content');
+      // Add timestamp to force fresh data
+      const response = await fetch(`/api/admin/content?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        }
+      });
+      
       if (response.ok) {
         const data = await response.json();
+        console.log('Loaded fresh content:', data);
         setContent(data);
       } else {
         throw new Error('Failed to load content');
@@ -43,15 +52,27 @@ export default function AdminDashboard() {
     setMessage('');
     
     try {
-      const response = await fetch('/api/admin/content', {
+      const response = await fetch(`/api/admin/content?t=${Date.now()}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        },
+        cache: 'no-store',
         body: JSON.stringify(content),
       });
       
       if (response.ok) {
+        const result = await response.json();
+        console.log('Content saved:', result);
         setMessage('Content saved successfully!');
-        setTimeout(() => setMessage(''), 3000);
+        
+        // Reload content after save to ensure fresh data
+        setTimeout(() => {
+          loadContent();
+          setMessage('');
+        }, 1000);
       } else {
         throw new Error('Failed to save content');
       }

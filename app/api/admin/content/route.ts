@@ -15,7 +15,16 @@ export async function GET() {
 
   try {
     const content = await ContentManager.loadContent();
-    return NextResponse.json(content);
+    
+    const response = NextResponse.json(content);
+    
+    // Add cache-busting headers
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    response.headers.set('ETag', `"${Date.now()}"`);
+    
+    return response;
   } catch (error) {
     console.error('Error loading content from Vercel storage:', error);
     return NextResponse.json(
@@ -36,10 +45,19 @@ export async function POST(request: NextRequest) {
     
     const updatedContent = await ContentManager.updateContent(updates);
     
-    return NextResponse.json({
+    const response = NextResponse.json({
       ...updatedContent,
-      _message: 'Content updated successfully and saved to Vercel Edge Config'
+      _message: 'Content updated successfully and saved to Vercel Edge Config',
+      _timestamp: Date.now()
     });
+    
+    // Add cache-busting headers
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    response.headers.set('ETag', `"${Date.now()}"`);
+    
+    return response;
   } catch (error) {
     console.error('Error updating content in Vercel storage:', error);
     return NextResponse.json(
@@ -48,3 +66,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// Disable static generation and force dynamic rendering
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
