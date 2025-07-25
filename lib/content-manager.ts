@@ -10,11 +10,8 @@ export class ContentManager {
       // Force fresh data by adding timestamp to bypass any caching
       const timestamp = Date.now();
       
-      // Try to get content from Edge Config with cache busting
-      const content = await get<ContentConfig>('site-content', {
-        // Disable caching completely
-        next: { revalidate: 0 }
-      });
+      // Try to get content from Edge Config
+      const content = await get<ContentConfig>('site-content');
       
       console.log(`Loading content at ${timestamp}:`, content ? 'Found' : 'Not found');
       
