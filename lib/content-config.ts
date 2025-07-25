@@ -156,33 +156,5 @@ export const defaultContent: ContentConfig = {
     },
   },
 };
-      email: { label: 'Email*', placeholder: 'Enter your email', required: true },
-      phone: { label: 'Phone*', placeholder: 'Enter your phone', required: true },
-      comments: { label: 'Comments', placeholder: 'Tell us about your project or ask any questions...', required: false },
-    },
-  },
-  
-  footer: {
-    copyrightText: '© 2024 DealerTower. All rights reserved.',
-    address: '12725 SW Millikan Way, Suite 300, Beaverton OR 97005',
-  },
-  legal: {
-    privacy: {
-      title: 'Privacy Policy',
-      lastUpdated: 'Last updated: January 1, 2024',
-      content: 'This Privacy Policy describes how DealerTower collects, uses, and shares your personal information when you use our services...',
-    },
-    terms: {
-      title: 'Terms of Service',
-      lastUpdated: 'Last updated: January 1, 2024',
-      content: 'These Terms of Service govern your use of DealerTower\'s services...',
-    },
-    cookies: {
-      title: 'Cookie Policy',
-      lastUpdated: 'Last updated: January 1, 2024',
-      content: 'This Cookie Policy explains how DealerTower uses cookies and similar technologies...',
-    },
-  },
-};
 
 export const CONTENT_KEY = 'site-content';
