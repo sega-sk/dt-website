@@ -17,34 +17,51 @@ export async function POST(request: NextRequest) {
     const edgeConfigId = process.env.EDGE_CONFIG_ID;
     const apiToken = process.env.VERCEL_API_TOKEN;
 
+    console.log('Environment check:', {
+      NODE_ENV: process.env.NODE_ENV,
+      hasEdgeConfigId: !!edgeConfigId,
+      hasApiToken: !!apiToken,
+      edgeConfigIdPrefix: edgeConfigId ? edgeConfigId.substring(0, 8) + '...' : 'missing'
+    });
+
     if (!edgeConfigId || !apiToken) {
       console.error('Missing environment variables:', {
         EDGE_CONFIG_ID: !!edgeConfigId,
         VERCEL_API_TOKEN: !!apiToken,
       });
+      
       return NextResponse.json({ 
         error: 'Edge Config not properly configured',
-        details: 'Missing required environment variables'
+        details: 'Missing required environment variables',
+        requiredVars: ['EDGE_CONFIG_ID', 'VERCEL_API_TOKEN']
       }, { status: 500 });
     }
 
     const body = await request.json();
     
     console.log('Updating Edge Config:', edgeConfigId);
-    console.log('Request body:', JSON.stringify(body, null, 2));
+    console.log('Request body keys:', Object.keys(body));
+    
+    // Validate the request body
+    if (!body.items || !Array.isArray(body.items)) {
+      return NextResponse.json({ 
+        error: 'Invalid request body',
+        details: 'Expected items array'
+      }, { status: 400 });
+    }
     
     // Make request to Vercel Edge Config API
-    const response = await fetch(
-      `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${apiToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const apiUrl = `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`;
+    console.log('Making request to:', apiUrl);
+    
+    const response = await fetch(apiUrl, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
 
     const responseText = await response.text();
     console.log('Vercel API response status:', response.status);
@@ -55,14 +72,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ 
         error: `Edge Config API error: ${response.status}`,
         details: responseText,
-        edgeConfigId: edgeConfigId
+        edgeConfigId: edgeConfigId,
+        apiUrl: apiUrl
       }, { status: response.status });
     }
 
     let result;
     try {
-      result = JSON.parse(responseText);
+      result = responseText ? JSON.parse(responseText) : { success: true };
     } catch (parseError) {
+      console.warn('Could not parse response JSON, treating as success:', parseError);
       result = { success: true, raw: responseText };
     }
 
