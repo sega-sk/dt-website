@@ -50,7 +50,7 @@ export interface ContentConfig {
     videoSrc: string;
     videoPoster: string;
   };
-  
+
   // Contact Section
   contact: {
     title: string;
@@ -58,13 +58,13 @@ export interface ContentConfig {
     subtitle: string;
     buttonText: string;
   };
-  
-  // Footer
+
+  // Footer Section
   footer: {
     copyrightText: string;
     address: string;
   };
-  
+
   // Legal Pages
   legal: {
     privacy: {
@@ -88,50 +88,44 @@ export interface ContentConfig {
 export const defaultContent: ContentConfig = {
   site: {
     title: 'DealerTower - Websites Built for Car Shoppers',
-    description: 'Top-notch car dealership pages, endless logo apps, and talented designers. Our platform gives dealers control back, delivering the exact experience they want while our experienced buyers actively work the biggest in today\'s digital world.',
-    logo: '/dealertower-logo.svg',
+    description: 'Top-notch car dealership pages, endless logo apps, and talented designers. Our platform gives dealers control back, delivering the exact experience they want.',
+    logo: '/logo.svg',
     favicon: '/favicon.ico',
   },
-  
   header: {
     logo: '/dealertower-logo.svg',
   },
-  
   hero: {
-    title: 'Websites',
-    highlightedWord: 'Built',
-    subtitle: 'for Car Shoppers.',
-    description: 'Say goodbye to cluttered pages, endless pop-ups, and bloated widgets. Our platform gives dealers control back delivering the clean, user-friendly shopping experience buyers actually want and expect in today\'s digital world.',
+    title: 'Websites Built for',
+    highlightedWord: 'Car Shoppers',
+    subtitle: 'Top-notch car dealership pages, endless logo apps, and talented designers.',
+    description: 'Our platform gives dealers control back, delivering the exact experience they want while our experienced buyers actively work the biggest in today\'s digital world.',
     videoSrc: '/videos/hero-demo.webm',
     videoPoster: '/images/posters/hero-demo-poster.webp',
   },
-  
   aiSearch: {
-    title: 'Built to Win',
+    title: 'Advanced',
     highlightedText: 'AI Search',
-    subtitle: 'We don\'t just follow SEO trends we anticipate them.',
-    description: 'Our platform is purpose-built for the future of search, ranking your site where it matters most: at the top of AI-generated results on ChatGPT, Gemini, and beyond.',
+    subtitle: 'Smart inventory search powered by artificial intelligence',
+    description: 'Our AI-powered search helps customers find exactly what they\'re looking for with natural language queries and intelligent filtering.',
     videoSrc: '/videos/ai-search-demo.webm',
     videoPoster: '/images/posters/ai-search-demo-poster.webp',
   },
-  
   lightningFast: {
-    title: '',
-    highlightedWord: 'Lightning Fast',
-    subtitle: 'Websites',
-    description: 'No more waiting, no more frustration our websites load lightning fast so buyers can browse, compare, and buy without delay. DealerTower keeps your website running at peak performance, consistently outperforming our competitors in page-speed tests.',
+    title: 'Lightning',
+    highlightedWord: 'Fast',
+    subtitle: 'Optimized for speed and performance',
+    description: 'Built with cutting-edge technology to deliver blazing fast load times and smooth user experiences across all devices.',
     videoSrc: '/videos/performance-demo.webm',
     videoPoster: '/images/posters/performance-demo-poster.webp',
   },
-  
   srpCustomizer: {
     title: 'SRP Customizer',
-    subtitle: '+ Bulk Rules',
-    description: 'Take full control of your inventory pages—no support tickets, no waiting. Our SRP customizer lets you instantly add, remove, or tweak CTAs, and apply bulk rules to update pricing rules & assets across vehicles using powerful filters. It\'s flexibility you won\'t find anywhere else.',
+    subtitle: 'Customize your search results page',
+    description: 'Powerful tools to customize and optimize your search results page for better user engagement and conversion rates.',
     videoSrc: '/videos/srp-customizer-demo.webm',
     videoPoster: '/images/posters/srp-customizer-demo-poster.webp',
   },
-  
   contact: {
     title: 'Experience',
     highlightedText: 'the Platform',
@@ -169,35 +163,26 @@ export const defaultContent: ContentConfig = {
   },
   
   footer: {
-    links: [
-      { label: 'Support', href: '/support' },
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Cookie Policy', href: '/cookies' },
-    ],
-    copyrightText: '© 2024 Dealertower. All rights reserved.',
+    copyrightText: '© 2024 DealerTower. All rights reserved.',
     address: '12725 SW Millikan Way, Suite 300, Beaverton OR 97005',
   },
-  
   legal: {
     privacy: {
-      title: 'Privacy Notice',
-      lastUpdated: 'May 31, 2025',
-      content: 'Welcome to Dealertower. We respect your privacy and are committed to protecting your personal data...',
+      title: 'Privacy Policy',
+      lastUpdated: 'Last updated: January 1, 2024',
+      content: 'This Privacy Policy describes how DealerTower collects, uses, and shares your personal information when you use our services...',
     },
     terms: {
       title: 'Terms of Service',
-      lastUpdated: 'May 31, 2025',
-      content: 'These terms and conditions govern your use of this website...',
+      lastUpdated: 'Last updated: January 1, 2024',
+      content: 'These Terms of Service govern your use of DealerTower\'s services...',
     },
     cookies: {
       title: 'Cookie Policy',
-      lastUpdated: 'May 31, 2025',
-      content: 'As is common practice with almost all professional websites, this site uses cookies...',
-    },
-    support: {
-      title: 'Support',
-      description: 'Get help with your DealerTower account and services.',
+      lastUpdated: 'Last updated: January 1, 2024',
+      content: 'This Cookie Policy explains how DealerTower uses cookies and similar technologies...',
     },
   },
 };
+
+export const CONTENT_KEY = 'site-content';

@@ -32,10 +32,13 @@ export async function POST(request: NextRequest) {
 
   try {
     const updates = await request.json();
+    console.log('Received content update request:', Object.keys(updates));
+    
     const updatedContent = await ContentManager.updateContent(updates);
     
     return NextResponse.json({
       ...updatedContent,
+      _message: 'Content updated successfully and saved to Vercel Edge Config'
       _message: 'Content updated successfully and saved to Vercel Edge Config'
     });
   } catch (error) {
