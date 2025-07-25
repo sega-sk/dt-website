@@ -69,7 +69,7 @@ export class ContentManager {
       return newContent;
     } catch (error) {
       console.error('Error updating content in Edge Config:', error);
-      throw new Error(`Failed to update content: ${error.message}`);
+      throw new Error(`Failed to update content: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
