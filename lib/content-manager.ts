@@ -1,20 +1,14 @@
-import { get, getAll } from '@vercel/edge-config';
-import { defaultContent, ContentConfig } from './content-config';
+import { get } from '@vercel/edge-config';
+import { ContentConfig, defaultContent } from './content-config';
 
 const CONTENT_KEY = 'site-content';
 
 export class ContentManager {
   static async loadContent(): Promise<ContentConfig> {
     try {
-      // Check if Edge Config is available in production
-      if (!process.env.EDGE_CONFIG && process.env.NODE_ENV === 'production') {
-        console.warn('EDGE_CONFIG environment variable not found in production, using default content');
-        return defaultContent;
-      }
-
-      // In development, use default content if no Edge Config
-      if (!process.env.EDGE_CONFIG && process.env.NODE_ENV === 'development') {
-        console.warn('EDGE_CONFIG environment variable not found in development, using default content');
+      // Check if Edge Config is available
+      if (!process.env.EDGE_CONFIG) {
+        console.warn('EDGE_CONFIG environment variable not found, using default content');
         return defaultContent;
       }
 
@@ -40,18 +34,12 @@ export class ContentManager {
       const currentContent = await this.loadContent();
       const newContent = this.deepMerge(currentContent, updates);
       
-      // Check if we're in production and have the required environment variables
-      const isProduction = process.env.NODE_ENV === 'production';
+      // Check if we have the required environment variables
       const hasEdgeConfig = !!(process.env.EDGE_CONFIG_ID && process.env.VERCEL_API_TOKEN);
       
       if (!hasEdgeConfig) {
-        if (isProduction) {
-          console.error('Missing Edge Config credentials in production');
-          throw new Error('Edge Config not properly configured for production environment');
-        } else {
-          console.warn('Development mode: Content changes will not persist without Edge Config setup');
-          return newContent;
-        }
+        console.warn('Missing Edge Config credentials - content changes will not persist');
+        return newContent;
       }
       
       // Make API call to update Edge Config
