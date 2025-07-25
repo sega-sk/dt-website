@@ -10,10 +10,6 @@ export interface ContentConfig {
   // Header/Navigation
   header: {
     logo: string;
-    navigationItems: Array<{
-      label: string;
-      href: string;
-    }>;
   };
   
   // Hero Section
@@ -61,21 +57,10 @@ export interface ContentConfig {
     highlightedText: string;
     subtitle: string;
     buttonText: string;
-    formFields: {
-      firstName: { label: string; placeholder: string; required: boolean };
-      lastName: { label: string; placeholder: string; required: boolean };
-      email: { label: string; placeholder: string; required: boolean };
-      phone: { label: string; placeholder: string; required: boolean };
-      comments: { label: string; placeholder: string; required: boolean };
-    };
   };
   
   // Footer
   footer: {
-    links: Array<{
-      label: string;
-      href: string;
-    }>;
     copyrightText: string;
     address: string;
   };
@@ -97,10 +82,6 @@ export interface ContentConfig {
       lastUpdated: string;
       content: string;
     };
-    support: {
-      title: string;
-      description: string;
-    };
   };
 }
 
@@ -114,9 +95,6 @@ export const defaultContent: ContentConfig = {
   
   header: {
     logo: '/dealertower-logo.svg',
-    navigationItems: [
-      { label: 'Home', href: '/' },
-    ],
   },
   
   hero: {
@@ -159,9 +137,31 @@ export const defaultContent: ContentConfig = {
     highlightedText: 'the Platform',
     subtitle: 'Experience the Platform',
     buttonText: 'Contact Us',
-    formFields: {
-      firstName: { label: 'First Name*', placeholder: 'Enter your first name', required: true },
-      lastName: { label: 'Last Name*', placeholder: 'Enter your last name', required: true },
+  },
+  
+  footer: {
+    copyrightText: '© 2024 Dealertower. All rights reserved.',
+    address: '12725 SW Millikan Way, Suite 300, Beaverton OR 97005',
+  },
+  
+  legal: {
+    privacy: {
+      title: 'Privacy Notice',
+      lastUpdated: 'May 31, 2025',
+      content: 'Welcome to Dealertower. We respect your privacy and are committed to protecting your personal data...',
+    },
+    terms: {
+      title: 'Terms of Service',
+      lastUpdated: 'May 31, 2025',
+      content: 'These terms and conditions govern your use of this website...',
+    },
+    cookies: {
+      title: 'Cookie Policy',
+      lastUpdated: 'May 31, 2025',
+      content: 'As is common practice with almost all professional websites, this site uses cookies...',
+    },
+  },
+};
       email: { label: 'Email*', placeholder: 'Enter your email', required: true },
       phone: { label: 'Phone*', placeholder: 'Enter your phone', required: true },
       comments: { label: 'Comments', placeholder: 'Tell us about your project or ask any questions...', required: false },

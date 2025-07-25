@@ -1,147 +1,143 @@
-import { defaultContent, ContentConfig } from './content-config';
-import { GITHUB_CONFIG } from './github-config';
+import { get, getAll } from '@vercel/edge-config';
+import { ContentConfig } from './content-config';
 
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const EDGE_CONFIG_ID = process.env.EDGE_CONFIG_ID;
+const VERCEL_API_TOKEN = process.env.VERCEL_API_TOKEN;
 
 export class ContentManager {
-  private static async fetchFromGitHub(): Promise<ContentConfig> {
-    const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.contentPath}`;
-    
-    try {
-      const response = await fetch(url, {
-        headers: {
-          'Authorization': `token ${GITHUB_CONFIG.token}`,
-          'Accept': 'application/vnd.github.v3+json',
-        },
-      });
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          // File doesn't exist yet, return default content
-          return defaultContent;
-        }
-        throw new Error(`GitHub API error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const content = JSON.parse(Buffer.from(data.content, 'base64').toString('utf-8'));
-      
-      // Merge with default content to ensure all fields are present
-      return { ...defaultContent, ...content };
-    } catch (error) {
-      console.error('Error fetching from GitHub:', error);
-      return defaultContent;
-    }
-  }
-
-  private static async saveToGitHub(content: ContentConfig, currentSha?: string): Promise<boolean> {
-    const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.contentPath}`;
-    
-    try {
-      const fileContent = JSON.stringify(content, null, 2);
-      const encodedContent = Buffer.from(fileContent, 'utf-8').toString('base64');
-      
-      const payload: any = {
-        message: `Update site content - ${new Date().toISOString()}`,
-        content: encodedContent,
-        branch: GITHUB_CONFIG.branch,
-      };
-
-      // Include SHA if updating existing file
-      if (currentSha) {
-        payload.sha = currentSha;
-      }
-
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `token ${GITHUB_CONFIG.token}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
-      }
-
-      return true;
-    } catch (error) {
-      console.error('Error saving to GitHub:', error);
-      return false;
-    }
-  }
-
-  private static async getCurrentSha(): Promise<string | undefined> {
-    const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.contentPath}`;
-    
-    try {
-      const response = await fetch(url, {
-        headers: {
-          'Authorization': `token ${GITHUB_CONFIG.token}`,
-          'Accept': 'application/vnd.github.v3+json',
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        return data.sha;
-      }
-    } catch (error) {
-      console.error('Error getting current SHA:', error);
-    }
-    
-    return undefined;
-  }
-
   static async loadContent(): Promise<ContentConfig> {
-    if (!GITHUB_CONFIG.token) {
-      console.warn('GitHub token not configured, using default content');
-      return defaultContent;
+    try {
+      // Try to get content from Edge Config
+      const content = await get<ContentConfig>('site-content');
+      
+      if (content) {
+        return content;
+      }
+      
+      // If no content exists, return default content
+      return this.getDefaultContent();
+    } catch (error) {
+      console.error('Error loading content from Vercel Edge Config:', error);
+      // Fallback to default content
+      return this.getDefaultContent();
     }
-
-    return await this.fetchFromGitHub();
   }
 
   static async updateContent(updates: Partial<ContentConfig>): Promise<ContentConfig> {
-    if (!GITHUB_CONFIG.token) {
-      console.error('GitHub token not configured');
-      throw new Error('GitHub integration not configured');
-    }
-
     try {
+      // Get current content
       const currentContent = await this.loadContent();
-      const newContent = this.deepMerge(currentContent, updates);
       
-      // Get current SHA for the file
-      const currentSha = await this.getCurrentSha();
+      // Merge updates with current content
+      const updatedContent = { ...currentContent, ...updates };
       
-      // Save to GitHub
-      const success = await this.saveToGitHub(newContent, currentSha);
+      // Update Edge Config via Vercel API
+      await this.updateEdgeConfig(updatedContent);
       
-      if (!success) {
-        throw new Error('Failed to save content to GitHub');
-      }
-      
-      return newContent;
+      return updatedContent;
     } catch (error) {
-      console.error('Error updating content:', error);
+      console.error('Error updating content in Vercel Edge Config:', error);
       throw new Error('Failed to update content');
     }
   }
 
-  private static deepMerge(target: any, source: any): any {
-    const result = { ...target };
-    
-    for (const key in source) {
-      if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-        result[key] = this.deepMerge(target[key] || {}, source[key]);
-      } else {
-        result[key] = source[key];
-      }
+  private static async updateEdgeConfig(content: ContentConfig): Promise<void> {
+    if (!EDGE_CONFIG_ID || !VERCEL_API_TOKEN) {
+      throw new Error('Missing Vercel configuration');
     }
-    
-    return result;
+
+    const response = await fetch(`https://api.vercel.com/v1/edge-config/${EDGE_CONFIG_ID}/items`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${VERCEL_API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        items: [
+          {
+            operation: 'upsert',
+            key: 'site-content',
+            value: content,
+          },
+        ],
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(`Failed to update Edge Config: ${error}`);
+    }
+  }
+
+  private static getDefaultContent(): ContentConfig {
+    return {
+      site: {
+        title: "DealerTower - Websites Built for Car Shoppers",
+        description: "Top-notch car dealership pages, endless logo apps, and talented designers.",
+        logo: "/logo.svg",
+        favicon: "/favicon.ico"
+      },
+      header: {
+        logo: "/logo.svg"
+      },
+      hero: {
+        title: "Websites Built for",
+        highlightedWord: "Car Shoppers",
+        subtitle: "Not Programmers",
+        description: "Top-notch car dealership pages, endless logo apps, and talented designers. Our platform gives dealers control back, delivering the exact experience they want while our experienced buyers actively work the biggest in today's digital world.",
+        videoSrc: "/videos/hero-demo.webm",
+        videoPoster: "/images/posters/hero-demo-poster.webp"
+      },
+      aiSearch: {
+        title: "Advanced",
+        highlightedText: "AI Search",
+        subtitle: "AI-powered search that understands natural language queries and provides instant, relevant results.",
+        description: "Our advanced AI search technology transforms how customers find vehicles. Using natural language processing and machine learning, it understands complex queries like 'reliable family SUV under $30k' and instantly delivers precisely matching results. The system learns from user behavior to continuously improve accuracy and relevance.",
+        videoSrc: "/videos/ai-search-demo.webm",
+        videoPoster: "/images/posters/ai-search-poster.webp"
+      },
+      lightningFast: {
+        title: "Lightning",
+        highlightedWord: "Fast",
+        subtitle: "Performance & Speed",
+        description: "Experience blazing-fast load times and seamless performance across all devices. Our optimized infrastructure ensures your dealership website loads in under 2 seconds, providing customers with an instant, smooth browsing experience that keeps them engaged and drives conversions.",
+        videoSrc: "/videos/speed-demo.webm",
+        videoPoster: "/images/posters/speed-poster.webp"
+      },
+      srpCustomizer: {
+        title: "SRP Customizer",
+        subtitle: "Tailor Your Search Results",
+        description: "Customize every aspect of your search results page to match your brand and customer preferences. From layout and filters to sorting options and display styles, create a unique search experience that guides customers to their perfect vehicle while showcasing your inventory in the best possible light.",
+        videoSrc: "/videos/srp-demo.webm",
+        videoPoster: "/images/posters/srp-poster.webp"
+      },
+      contact: {
+        title: "Ready to Get",
+        highlightedText: "Started",
+        subtitle: "Transform your dealership's online presence today",
+        buttonText: "Contact Us"
+      },
+      footer: {
+        copyrightText: "© 2025 Dealertower. All rights reserved.",
+        address: "12725 SW Millikan Way, Suite 300, Beaverton OR 97005"
+      },
+      legal: {
+        privacy: {
+          title: "Privacy Notice",
+          lastUpdated: "May 31, 2025",
+          content: "Welcome to Dealertower. We respect your privacy and are committed to protecting your personal data..."
+        },
+        terms: {
+          title: "Dealertower Terms and Conditions",
+          lastUpdated: "May 31, 2025",
+          content: "These terms and conditions apply to the design, development, delivery, and hosting of a website..."
+        },
+        cookies: {
+          title: "Cookie Policy",
+          lastUpdated: "May 31, 2025",
+          content: "As is common practice with almost all professional websites, this site uses cookies..."
+        }
+      }
+    };
   }
 }

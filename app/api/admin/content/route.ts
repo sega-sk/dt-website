@@ -17,9 +17,9 @@ export async function GET() {
     const content = await ContentManager.loadContent();
     return NextResponse.json(content);
   } catch (error) {
-    console.error('Error loading content:', error);
+    console.error('Error loading content from Vercel storage:', error);
     return NextResponse.json(
-      { error: 'Failed to load content' },
+      { error: 'Failed to load content from Vercel storage' },
       { status: 500 }
     );
   }
@@ -36,12 +36,12 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({
       ...updatedContent,
-      _message: 'Content updated successfully and saved to GitHub'
+      _message: 'Content updated successfully and saved to Vercel Edge Config'
     });
   } catch (error) {
-    console.error('Error updating content:', error);
+    console.error('Error updating content in Vercel storage:', error);
     return NextResponse.json(
-      { error: 'Failed to update content' },
+      { error: 'Failed to update content in Vercel storage' },
       { status: 500 }
     );
   }
